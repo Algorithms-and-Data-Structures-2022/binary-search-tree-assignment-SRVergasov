@@ -7,9 +7,6 @@ namespace assignment {
   }
 
   void BinarySearchTree::Insert(int key, int value) {
-    if (IsEmpty()) {
-      return;
-    }
     insert(key, value, root_);
   }
 
@@ -66,9 +63,7 @@ namespace assignment {
     }
     if (key == node->key) {
       (*node).value = value;
-      return;
-    }
-    if (key < node->key) {
+    } else if (key < node->key) {
       insert(key, value, node->left);
     } else if (key > node->key) {
       insert(key, value, node->right);
@@ -87,14 +82,14 @@ namespace assignment {
         return remove(minNode->key, node->right);
       }
       if (node->right != nullptr) {
-        Node *right_node = node->right;
+        Node *rightNode = node->right;
         delete node;
-        node = right_node;
+        node = rightNode;
         return true;
       }
-      Node *left_child = node->left;
+      Node *leftNode = node->left;
       delete node;
-      node = left_child;
+      node = leftNode;
       return true;
     }
     if (key < node->key) {
@@ -116,41 +111,29 @@ namespace assignment {
     if (node == nullptr) {
       return nullptr;
     }
-    if (node->key == key) {
-      return node;
-    }
     if (key < node->key) {
       return find(key, node->left);
-    } if (key > node->key) {
+    }
+    if (key > node->key) {
       return find(key, node->right);
     }
-    return nullptr;
+    return node;
   }
 
   Node* BinarySearchTree::find_min(Node* node) const {
-    int minKey = node->key;
     Node *minNode = node;
     while (node != nullptr) {
-      if (minKey > node->key) {
-        minKey = node->key;
-        minNode = node;
-      } else {
-        node = node->left;
-      }
+      minNode = node;
+      node = node->left;
     }
     return minNode;
   }
 
   Node* BinarySearchTree::find_max(Node* node) const {
-    int maxKey = node->key;
     Node *maxNode = node;
     while (node != nullptr) {
-      if (maxKey < node->key) {
-        maxKey = node->key;
-        maxNode = node;
-      } else {
-        node = node->right;
-      }
+      maxNode = node;
+      node = node->right;
     }
     return maxNode;
   }
